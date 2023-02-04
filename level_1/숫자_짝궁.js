@@ -2,20 +2,22 @@
 
 function solution(X, Y) {
 	var answer = '';
-	const [x_arr, y_arr] = [X.split(''), Y.split('')]
+	const [x_arr, y_arr] = [X.split('').sort(), Y.split('').sort()]
 	const numSet = []
 
-	for (let i = 0; i < x_arr.length; ++i) {
-		for (let j = 0; j < y_arr.length; ++j) {
-			if (x_arr[i] === y_arr[j]) {
-				numSet.push(x_arr[i]);
-				x_arr.splice(i, 1);
-				y_arr.splice(j, 1);
-				--i;
-				break;
-			}
+	let [i, j] = [x_arr.length, y_arr.length]
+	while (i > -1 && j > -1) {
+		if (x_arr[i] === y_arr[j]) {
+			numSet.push(x_arr[i]);
+			--i;
+			--j;
+		} else if (x_arr[i] > y_arr[j]) {
+			--i;
+		} else {
+			--j;
 		}
 	}
+
 	numSet.sort((a, b) => (b - a));
 	answer = numSet.join("");
 	if (answer.length === 0) return '-1';
