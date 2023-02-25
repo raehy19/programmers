@@ -3,9 +3,6 @@
 class node {
   value;
   depth;
-  plus_n;
-  double;
-  triple;
   constructor(value, depth, n, y, answerDepthList) {
     this.value = value;
     this.depth = depth;
@@ -13,34 +10,35 @@ class node {
       if (answerDepthList.length === 0 || answerDepthList[0] > this.depth)
         answerDepthList.push(this.depth);
     }
-    this.plus_n = value + n;
-    this.double = value * 2;
-    this.triple = value * 3;
   }
 
   addChild(y, n, nodelist, answerDepthList) {
-    if (answerDepthList.length !== 0 && answerDepthList[0] <= this.depth + 2)
-      return;
-    if (this.plus_n <= y)
+    if (this.value * 3 <= y)
       nodelist.push(
-        new node(this.plus_n, this.depth + 1, n, y, answerDepthList)
+        new node(this.value * 3, this.depth + 1, n, y, answerDepthList)
       );
-    if (this.double <= y)
+    if (this.value * 2 <= y)
       nodelist.push(
-        new node(this.double, this.depth + 1, n, y, answerDepthList)
+        new node(this.value * 2, this.depth + 1, n, y, answerDepthList)
       );
-    if (this.triple <= y)
+    if (this.value + n <= y)
       nodelist.push(
-        new node(this.triple, this.depth + 1, n, y, answerDepthList)
+        new node(this.value + n, this.depth + 1, n, y, answerDepthList)
       );
   }
 }
 
 function solution(x, y, n) {
+  if (x === y) return 0;
   const nodelist = [];
   const answerDepthList = [];
   nodelist.push(new node(x, 0, n, y, answerDepthList));
   for (let i = 0; i < nodelist.length; ++i) {
+    if (
+      answerDepthList.length !== 0 &&
+      answerDepthList[0] < nodelist[i].depth + 2
+    )
+      continue;
     nodelist[i].addChild(y, n, nodelist, answerDepthList);
   }
   // console.log(answerDepthList);
