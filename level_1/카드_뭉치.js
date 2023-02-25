@@ -8,7 +8,7 @@ function solution(cards1, cards2, goal) {
     } else if (goal[0] === cards2[0]) {
       cards2.shift();
       goal.shift();
-    } else return "No";
+    } else return 'No';
   }
-  return "Yes";
+  return 'Yes';
 }
